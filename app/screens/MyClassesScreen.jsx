@@ -58,6 +58,16 @@ const styles = StyleSheet.create({
   classList: {
     marginBottom: 12,
   },
+  classListItem: {
+    backgroundColor: colors.white,
+    borderColor: colors.grey,
+    borderWidth: 1,
+    borderRadius: 12,
+    height: 80,
+    justifyContent: "space-evenly",
+    marginVertical: 8,
+    paddingHorizontal: 12,
+  }
 });
 
 export default function MyClassesScreen({ navigation, classes }) {
@@ -90,7 +100,7 @@ export default function MyClassesScreen({ navigation, classes }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headingContainer}>
-        <Text style={styles.heading}>My Classes</Text>
+        <Text style={styles.heading}>Select from the following classes.</Text>
       </View>
 
       <FlatList
@@ -99,8 +109,10 @@ export default function MyClassesScreen({ navigation, classes }) {
         refreshing={listRefreshing}
         onRefresh={handleRefresh}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => navigation.navigate(routes.MARK_ATTENDANCE_SCREEN)}>
-            <View>
+          <TouchableOpacity onPress={
+            () => navigation.navigate(routes.MARK_ATTENDANCE_SCREEN, { myClass: item })
+          }>
+            <View style={styles.classListItem}>
               <Text>{item.id}</Text>
               <Text>{item.name}</Text>
             </View>
@@ -120,35 +132,15 @@ MyClassesScreen.defaultProps = {
   classes: [
     {
       id: "17-XYZ",
-      name: "Tulip",
-      students: [
-        { id: "17-XYZ-01", name: "Alpha" },
-        { id: "17-XYZ-02", name: "Beta" },
-        { id: "17-XYZ-03", name: "Charlie" },
-        { id: "17-XYZ-04", name: "Delta" },
-        { id: "17-XYZ-05", name: "Echo" },
-        { id: "17-XYZ-06", name: "Foxtrot" },
-        { id: "17-XYZ-07", name: "Golf" },
-        { id: "17-XYZ-08", name: "Hotel" },
-        { id: "17-XYZ-09", name: "India" },
-        { id: "17-XYZ-10", name: "Juliet" },
-        { id: "17-XYZ-11", name: "Kilo" },
-        { id: "17-XYZ-12", name: "Lima" },
-        { id: "17-XYZ-13", name: "Mike" },
-        { id: "17-XYZ-14", name: "November" },
-        { id: "17-XYZ-15", name: "Oscar" },
-        { id: "17-XYZ-16", name: "Papa" },
-        { id: "17-XYZ-17", name: "Quebec" },
-        { id: "17-XYZ-18", name: "Romeo" },
-        { id: "17-XYZ-19", name: "Sierra" },
-        { id: "17-XYZ-20", name: "Tango" },
-        { id: "17-XYZ-21", name: "Uniform" },
-        { id: "17-XYZ-22", name: "Victor" },
-        { id: "17-XYZ-23", name: "Whiskey" },
-        { id: "17-XYZ-24", name: "X-Ray" },
-        { id: "17-XYZ-25", name: "Yankee" },
-        { id: "17-XYZ-26", name: "Zulu" },
-      ],
+      name: "Mathematics",
     },
+    {
+      id: "18-MNO",
+      name: "English",
+    },
+    {
+      id: "16-DEF",
+      name: "Basketball",
+    }
   ],
 };

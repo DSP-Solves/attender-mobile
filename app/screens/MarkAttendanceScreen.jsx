@@ -59,7 +59,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MarkAttendanceScreen({ students }) {
+export default function MarkAttendanceScreen({ navigation, route, students }) {
+  const { myClass } = route.params;
+
   const [allStudents, setAllStudents] = useState(students);
   const [presentStudents, setPresentStudents] = useState([]);
   const [absentStudents, setAbsentStudents] = useState([]);
@@ -141,7 +143,7 @@ export default function MarkAttendanceScreen({ students }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headingContainer}>
-        <Text style={styles.heading}>Mark Attendance</Text>
+        <Text style={styles.heading}>{`${myClass.id} : ${myClass.name}`}</Text>
       </View>
 
       <FlatList

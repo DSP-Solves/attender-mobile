@@ -1,7 +1,7 @@
 export default Object.freeze({
   ACCOUNT_SCREEN: "Account",
   CLASSES_SCREEN: "My Classes",
-  MARK_ATTENDANCE_SCREEN: "MarkAttendance",
+  MARK_ATTENDANCE_SCREEN: "Mark Attendance",
   LISTING_DETAILS: "ListingDetails",
   LISTING_EDIT: "ListingEdit",
   LISTINGS_SCREEN: "Listings",

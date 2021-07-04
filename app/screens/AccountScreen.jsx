@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
 });
 
 export default function AccountScreen({ navigation }) {
+  
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
