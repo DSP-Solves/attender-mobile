@@ -52,8 +52,6 @@ const styles = StyleSheet.create({
 });
 
 export default function AccountScreen({ navigation }) {
-  
-
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
@@ -74,13 +72,19 @@ export default function AccountScreen({ navigation }) {
               </View>
             </TouchableWithoutFeedback>
           )}
-          ItemSeparatorComponent={() => <View style={styles.menuItemSeparator} />}
+          ItemSeparatorComponent={() => (
+            <View style={styles.menuItemSeparator} />
+          )}
         />
       </View>
 
       <TouchableWithoutFeedback onPress={() => console.log("logout")}>
         <View style={styles.menuOption}>
-          <MaterialCommunityIcons name="logout-variant" color={colors.primary} size={24} />
+          <MaterialCommunityIcons
+            name="logout-variant"
+            color={colors.primary}
+            size={24}
+          />
           <Text style={styles.menuLabel}>Logout</Text>
         </View>
       </TouchableWithoutFeedback>

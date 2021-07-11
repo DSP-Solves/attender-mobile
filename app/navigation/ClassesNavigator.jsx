@@ -7,9 +7,17 @@ import routes from "./routes";
 
 const Stack = createStackNavigator();
 
-export default AccountNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name={routes.CLASSES_SCREEN} component={MyClassesScreen} />
-    <Stack.Screen name={routes.MARK_ATTENDANCE_SCREEN} component={MarkAttendanceScreen} />
-  </Stack.Navigator>
-);
+export default function ClassesNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name={routes.CLASSES_SCREEN}
+        component={MyClassesScreen}
+      />
+      <Stack.Screen
+        name={routes.MARK_ATTENDANCE_SCREEN}
+        component={MarkAttendanceScreen}
+      />
+    </Stack.Navigator>
+  );
+}

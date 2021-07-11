@@ -7,16 +7,12 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  ToastAndroid,
   TouchableOpacity,
   UIManager,
   View,
   Platform,
 } from "react-native";
 import PropTypes from "prop-types";
-import XLSX from "xlsx";
-import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
 import * as DocumentPicker from "expo-document-picker";
 
 import colors from "../utils/colors";
@@ -90,10 +86,6 @@ export default function MyClassesScreen({ navigation, classes }) {
   const [listRefreshing, setListRefreshing] = useState(false);
   const [allClasses, setAllClasses] = useState(classes);
 
-  const toast = (msg) => {
-    ToastAndroid.show(msg, ToastAndroid.SHORT);
-  };
-
   const layoutAnimConfig = {
     duration: 300,
     update: {
@@ -133,7 +125,7 @@ export default function MyClassesScreen({ navigation, classes }) {
 
         const apiResponse = await apiClient.post(
           "/conversion/csv2json",
-          formData
+          formData,
         );
 
         if (apiResponse.ok) {
@@ -150,7 +142,9 @@ export default function MyClassesScreen({ navigation, classes }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headingContainer}>
-        <Text style={styles.heading}>Select from the following classes.</Text>
+        <Text style={styles.heading}>
+          Select from the following classes.
+        </Text>
       </View>
 
       <FlatList
@@ -190,6 +184,7 @@ export default function MyClassesScreen({ navigation, classes }) {
 }
 
 MyClassesScreen.propTypes = {
+  navigation: PropTypes.object,
   classes: PropTypes.array,
 };
 

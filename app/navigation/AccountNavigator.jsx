@@ -6,8 +6,13 @@ import routes from "./routes";
 
 const Stack = createStackNavigator();
 
-export default AccountNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name={routes.ACCOUNT_SCREEN} component={AccountScreen} />
-  </Stack.Navigator>
-);
+export default function AccountNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name={routes.ACCOUNT_SCREEN}
+        component={AccountScreen}
+      />
+    </Stack.Navigator>
+  );
+}

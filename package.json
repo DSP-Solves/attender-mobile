@@ -7,7 +7,7 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest",
-    "lint": "eslint App.jsx app/"
+    "lint": "eslint App.jsx app/**/*.jsx"
   },
   "dependencies": {
     "@expo/vector-icons": "^12.0.5",
@@ -21,15 +21,26 @@
     "expo-file-system": "~11.1.3",
     "expo-sharing": "~9.2.1",
     "expo-status-bar": "~1.0.4",
+    "prop-types": "^15.7.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-web": "~0.13.12",
-    "xlsx": "^0.17.0"
+    "xlsx": "^0.17.0",
+    "expo-constants": "~11.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.0"
+    "@babel/core": "^7.9.0",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.24.0",
+    "eslint-plugin-react-hooks": "^4.2.0"
   },
   "private": true
 }

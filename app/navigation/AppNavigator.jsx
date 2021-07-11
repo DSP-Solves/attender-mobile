@@ -11,32 +11,43 @@ import ClassesNavigator from "./ClassesNavigator";
 
 const Tab = createBottomTabNavigator();
 
-// eslint-disable-next-line no-undef
-export default AppNavigator = () => (
-  <Tab.Navigator
-    tabBarOptions={{
-      activeTintColor: colors.primary,
-      inactiveTintColor: colors.medium,
-    }}
-  >
-    <Tab.Screen
-      name={routes.CLASSES_SCREEN}
-      component={ClassesNavigator}
-      options={{
-        tabBarIcon: ({ size, color }) => (
-          <MaterialCommunityIcons color={color} name="clipboard-list" size={size} />
-        ),
+export default function AppNavigator() {
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: colors.primary,
+        inactiveTintColor: colors.medium,
       }}
-    />
+    >
+      <Tab.Screen
+        name={routes.CLASSES_SCREEN}
+        component={ClassesNavigator}
+        options={{
+          // eslint-disable-next-line react/prop-types
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons
+              color={color}
+              name="clipboard-list"
+              size={size}
+            />
+          ),
+        }}
+      />
 
-    <Tab.Screen
-      name={routes.ACCOUNT_SCREEN}
-      component={AccountNavigator}
-      options={{
-        tabBarIcon: ({ size, color }) => (
-          <MaterialCommunityIcons color={color} name="account" size={size} />
-        ),
-      }}
-    />
-  </Tab.Navigator>
-);
+      <Tab.Screen
+        name={routes.ACCOUNT_SCREEN}
+        component={AccountNavigator}
+        options={{
+          // eslint-disable-next-line react/prop-types
+          tabBarIcon: ({ size, color }) => (
+            <MaterialCommunityIcons
+              color={color}
+              name="account"
+              size={size}
+            />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}

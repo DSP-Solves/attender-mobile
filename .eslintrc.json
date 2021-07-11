@@ -1,18 +1,23 @@
 {
   "env": {
-    "node": true,
     "browser": true,
-    "es6": true
+    "es2021": true
   },
-  "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": ["plugin:react/recommended", "airbnb"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
   "rules": {
-    "linebreak-style": ["error", "windows"],
     "quotes": ["error", "double"],
-    "no-console": "warn",
-    "react/prop-types": "warn",
-    "object-curly-newline": "off",
-    "react/forbid-prop-types": "off"
-  },
-  "eslintIgnore": ["*.test.js"]
+    "linebreak-style": ["error", "windows"],
+    "react/forbid-prop-types": ["warn"],
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-curly-newline": "off",
+    "object-curly-newline": "off"
+  }
 }

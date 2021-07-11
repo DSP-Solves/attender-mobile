@@ -59,7 +59,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MarkAttendanceScreen({ navigation, route, students }) {
+export default function MarkAttendanceScreen({
+  // navigation,
+  route,
+  students,
+}) {
   const { myClass } = route.params;
 
   const [allStudents, setAllStudents] = useState(students);
@@ -143,7 +147,9 @@ export default function MarkAttendanceScreen({ navigation, route, students }) {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headingContainer}>
-        <Text style={styles.heading}>{`${myClass.id} : ${myClass.name}`}</Text>
+        <Text style={styles.heading}>
+          {`${myClass.id} : ${myClass.name}`}
+        </Text>
       </View>
 
       <FlatList
@@ -206,10 +212,14 @@ export default function MarkAttendanceScreen({ navigation, route, students }) {
 }
 
 MarkAttendanceScreen.propTypes = {
+  // navigation: PropTypes.object,
+  route: PropTypes.object,
   students: PropTypes.array,
 };
 
 MarkAttendanceScreen.defaultProps = {
+  // navigation: PropTypes.object.isRequired,
+  route: PropTypes.object.isRequired,
   students: [
     { id: "17-XYZ-01", name: "Alpha" },
     { id: "17-XYZ-02", name: "Beta" },
