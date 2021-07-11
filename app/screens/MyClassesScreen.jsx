@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import {
   FlatList,
   LayoutAnimation,
@@ -13,8 +14,13 @@ import {
   Platform,
 } from "react-native";
 import PropTypes from "prop-types";
+import XLSX from "xlsx";
+import * as FileSystem from "expo-file-system";
+import * as Sharing from "expo-sharing";
+import * as DocumentPicker from "expo-document-picker";
 
 import colors from "../utils/colors";
+import apiClient from "../api/client";
 
 import routes from "../navigation/routes";
 
@@ -67,7 +73,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     marginVertical: 8,
     paddingHorizontal: 12,
-  }
+  },
+  touchableOpacityStyle: {
+    position: "absolute",
+    width: 60,
+    height: 60,
+    alignItems: "center",
+    justifyContent: "center",
+    right: 24,
+    bottom: 24,
+    borderRadius: 50,
+  },
 });
 
 export default function MyClassesScreen({ navigation, classes }) {
@@ -97,6 +113,40 @@ export default function MyClassesScreen({ navigation, classes }) {
     setListRefreshing(false);
   };
 
+  const clickHandler = async () => {
+    const docPicked = await DocumentPicker.getDocumentAsync({
+      copyToCacheDirectory: false,
+    });
+
+    if (docPicked.type === "success") {
+      try {
+        const file = {
+          name: docPicked.name,
+          size: docPicked.size,
+          type: "text/csv",
+          uri: docPicked.uri,
+        };
+
+        const formData = new FormData();
+        formData.append("name", docPicked.name);
+        formData.append("file", file);
+
+        const apiResponse = await apiClient.post(
+          "/conversion/csv2json",
+          formData
+        );
+
+        if (apiResponse.ok) {
+          console.log(apiResponse.data);
+        } else {
+          console.error(apiResponse.originalError);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.headingContainer}>
@@ -109,9 +159,13 @@ export default function MyClassesScreen({ navigation, classes }) {
         refreshing={listRefreshing}
         onRefresh={handleRefresh}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={
-            () => navigation.navigate(routes.MARK_ATTENDANCE_SCREEN, { myClass: item })
-          }>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate(routes.MARK_ATTENDANCE_SCREEN, {
+                myClass: item,
+              })
+            }
+          >
             <View style={styles.classListItem}>
               <Text>{item.id}</Text>
               <Text>{item.name}</Text>
@@ -119,6 +173,18 @@ export default function MyClassesScreen({ navigation, classes }) {
           </TouchableOpacity>
         )}
       />
+
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={clickHandler}
+        style={styles.touchableOpacityStyle}
+      >
+        <MaterialCommunityIcons
+          name="plus-circle"
+          size={56}
+          color={colors.red}
+        />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -141,6 +207,6 @@ MyClassesScreen.defaultProps = {
     {
       id: "16-DEF",
       name: "Basketball",
-    }
+    },
   ],
 };
