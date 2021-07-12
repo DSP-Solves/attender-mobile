@@ -66,7 +66,7 @@ export default function MarkAttendanceScreen({
 }) {
   const { myClass } = route.params;
 
-  const [allStudents, setAllStudents] = useState(students);
+  const [allStudents, setAllStudents] = useState(myClass.students);
   const [presentStudents, setPresentStudents] = useState([]);
   const [absentStudents, setAbsentStudents] = useState([]);
   const [listRefreshing, setListRefreshing] = useState(false);
@@ -137,6 +137,15 @@ export default function MarkAttendanceScreen({
     console.log(presentStudents);
     console.log(absentStudents);
     toast("GOOD");
+
+    /*
+      TODO
+
+      - Build a compiled JSON with all the present and absent status of each student
+      - Send the JSON to the server to recieve a csv in return
+      - Store the response file in the cache
+      - Prompt the user to share or maybe store it someplace safe
+    */
   };
 
   const handleReset = () => {
