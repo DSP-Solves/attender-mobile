@@ -14,7 +14,8 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 
-import ItemBox from "../components/ItemBox";
+// import ItemBox from "../components/ItemBox";
+import ItemBoxAnimated from "../components/ItemBoxAnimated";
 import colors from "../utils/colors";
 
 if (Platform.OS === "android") {
@@ -88,36 +89,28 @@ export default function MarkAttendanceScreen({
   };
 
   const markPresent = (id) => {
-    const allItems = [];
     let presentStudent;
 
     allStudents.forEach((student) => {
       if (student.id === id) {
         presentStudent = student;
-      } else {
-        allItems.push(student);
       }
     });
 
-    setAllStudents(allItems);
     setPresentStudents([...presentStudents, presentStudent]);
 
     LayoutAnimation.configureNext(layoutAnimConfig);
   };
 
   const markAbsent = (id) => {
-    const allItems = [];
     let absentStudent;
 
     allStudents.forEach((student) => {
       if (student.id === id) {
         absentStudent = student;
-      } else {
-        allItems.push(student);
       }
     });
 
-    setAllStudents(allItems);
     setAbsentStudents([...absentStudents, absentStudent]);
 
     LayoutAnimation.configureNext(layoutAnimConfig);
@@ -167,7 +160,7 @@ export default function MarkAttendanceScreen({
         refreshing={listRefreshing}
         onRefresh={handleRefresh}
         renderItem={({ item }) => (
-          <ItemBox
+          <ItemBoxAnimated
             data={item}
             markPresent={() => markPresent(item.id)}
             markAbsent={() => markAbsent(item.id)}

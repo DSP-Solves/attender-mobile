@@ -1,7 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, View, FlatList, Text } from "react-native";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  Text,
+  TouchableWithoutFeedback,
+} from "react-native";
 import PropTypes from "prop-types";
 
 import Screen from "../components/Screen";
