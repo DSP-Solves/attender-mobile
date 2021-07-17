@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   FlatList,
   LayoutAnimation,
@@ -6,7 +6,6 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  ToastAndroid,
   TouchableOpacity,
   UIManager,
   View,
@@ -74,7 +73,6 @@ export default function MarkAttendanceScreen({
 
   const [allStudents, setAllStudents] = useState(myClass.students);
   const [listRefreshing, setListRefreshing] = useState(false);
-  const [downloadProgress, setDownloadProgress] = useState();
 
   const layoutAnimConfig = {
     duration: 300,
@@ -88,13 +86,10 @@ export default function MarkAttendanceScreen({
     },
   };
 
-  const toast = (msg) => {
-    ToastAndroid.show(msg, ToastAndroid.SHORT);
-  };
-
   const markPresent = (id) => {
     allStudents.forEach((student) => {
       if (student.id === id) {
+        // eslint-disable-next-line no-param-reassign
         student.status = "present";
       }
     });
@@ -105,6 +100,7 @@ export default function MarkAttendanceScreen({
   const markAbsent = (id) => {
     allStudents.forEach((student) => {
       if (student.id === id) {
+        // eslint-disable-next-line no-param-reassign
         student.status = "absent";
       }
     });
@@ -127,17 +123,9 @@ export default function MarkAttendanceScreen({
       });
 
       if (apiResponse.ok && apiResponse.data.success) {
-        const callback = (progress) => {
-          setDownloadProgress(
-            progress.totalBytesWritten / progress.totalBytesExpectedToWrite,
-          );
-        };
-
         const downloadResumable = FileSystem.createDownloadResumable(
           `http://192.168.29.212:9107/download/${apiResponse.data.message}`,
           `${FileSystem.documentDirectory}${apiResponse.data.message}`,
-          {},
-          callback,
         );
 
         await MediaLibrary.requestPermissionsAsync();
@@ -179,10 +167,6 @@ export default function MarkAttendanceScreen({
     setAllStudents([]);
     handleRefresh();
   };
-
-  useEffect(() => {
-    console.log({ downloadProgress });
-  }, [downloadProgress]);
 
   return (
     <SafeAreaView style={styles.container}>
