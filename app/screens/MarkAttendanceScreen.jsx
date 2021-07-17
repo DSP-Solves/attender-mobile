@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   LayoutAnimation,
@@ -13,10 +13,15 @@ import {
   Platform,
 } from "react-native";
 import PropTypes from "prop-types";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
+import * as Sharing from "expo-sharing";
 
 // import ItemBox from "../components/ItemBox";
 import ItemBoxAnimated from "../components/ItemBoxAnimated";
 import colors from "../utils/colors";
+import apiClient from "../api/client";
+import routes from "../navigation/routes";
 
 if (Platform.OS === "android") {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -61,16 +66,15 @@ const styles = StyleSheet.create({
 });
 
 export default function MarkAttendanceScreen({
-  // navigation,
+  navigation,
   route,
   students,
 }) {
   const { myClass } = route.params;
 
   const [allStudents, setAllStudents] = useState(myClass.students);
-  const [presentStudents, setPresentStudents] = useState([]);
-  const [absentStudents, setAbsentStudents] = useState([]);
   const [listRefreshing, setListRefreshing] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState();
 
   const layoutAnimConfig = {
     duration: 300,
@@ -89,29 +93,21 @@ export default function MarkAttendanceScreen({
   };
 
   const markPresent = (id) => {
-    let presentStudent;
-
     allStudents.forEach((student) => {
       if (student.id === id) {
-        presentStudent = student;
+        student.status = "present";
       }
     });
-
-    setPresentStudents([...presentStudents, presentStudent]);
 
     LayoutAnimation.configureNext(layoutAnimConfig);
   };
 
   const markAbsent = (id) => {
-    let absentStudent;
-
     allStudents.forEach((student) => {
       if (student.id === id) {
-        absentStudent = student;
+        student.status = "absent";
       }
     });
-
-    setAbsentStudents([...absentStudents, absentStudent]);
 
     LayoutAnimation.configureNext(layoutAnimConfig);
   };
@@ -119,32 +115,74 @@ export default function MarkAttendanceScreen({
   const handleRefresh = () => {
     setListRefreshing(true);
     setAllStudents(students);
-    setPresentStudents([]);
-    setAbsentStudents([]);
     LayoutAnimation.configureNext(layoutAnimConfig);
     setListRefreshing(false);
   };
 
-  const handleSubmit = () => {
-    console.log(allStudents);
-    console.log(presentStudents);
-    console.log(absentStudents);
-    toast("GOOD");
+  const handleSubmit = async () => {
+    try {
+      const apiResponse = await apiClient.post("/mark", {
+        identifier: `${myClass.id}_${myClass.name}`,
+        studentList: allStudents,
+      });
 
-    /*
-      TODO
+      if (apiResponse.ok && apiResponse.data.success) {
+        const callback = (progress) => {
+          setDownloadProgress(
+            progress.totalBytesWritten / progress.totalBytesExpectedToWrite,
+          );
+        };
 
-      - Build a compiled JSON with all the present and absent status of each student
-      - Send the JSON to the server to recieve a csv in return
-      - Store the response file in the cache
-      - Prompt the user to share or maybe store it someplace safe
-    */
+        const downloadResumable = FileSystem.createDownloadResumable(
+          `http://192.168.29.212:9107/download/${apiResponse.data.message}`,
+          `${FileSystem.documentDirectory}${apiResponse.data.message}`,
+          {},
+          callback,
+        );
+
+        await MediaLibrary.requestPermissionsAsync();
+
+        const downloadedFile = await downloadResumable.downloadAsync();
+
+        const asset = await MediaLibrary.createAssetAsync(
+          downloadedFile.uri,
+        );
+
+        const album = await MediaLibrary.getAlbumAsync("Download");
+
+        if (album == null) {
+          await MediaLibrary.createAlbumAsync(
+            "Download",
+            asset,
+            false,
+          );
+        } else {
+          await MediaLibrary.addAssetsToAlbumAsync(
+            [asset],
+            album,
+            false,
+          );
+        }
+
+        Sharing.shareAsync(downloadedFile.uri);
+
+        navigation.navigate(routes.CLASSES_SCREEN);
+      } else {
+        console.error(apiResponse.originalError);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleReset = () => {
     setAllStudents([]);
     handleRefresh();
   };
+
+  useEffect(() => {
+    console.log({ downloadProgress });
+  }, [downloadProgress]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -214,13 +252,13 @@ export default function MarkAttendanceScreen({
 }
 
 MarkAttendanceScreen.propTypes = {
-  // navigation: PropTypes.object,
+  navigation: PropTypes.object,
   route: PropTypes.object,
   students: PropTypes.array,
 };
 
 MarkAttendanceScreen.defaultProps = {
-  // navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   students: [
     { id: "17-XYZ-01", name: "Alpha" },
