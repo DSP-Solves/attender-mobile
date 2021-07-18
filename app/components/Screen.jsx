@@ -23,5 +23,4 @@ export default function Screen({ children, style }) {
 
 Screen.propTypes = {
   children: PropTypes.node.isRequired,
-  style: PropTypes.object.isRequired,
 };

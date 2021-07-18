@@ -5,9 +5,9 @@ import {
   View,
   FlatList,
   Text,
+  ToastAndroid,
   TouchableWithoutFeedback,
 } from "react-native";
-import PropTypes from "prop-types";
 
 import Screen from "../components/Screen";
 
@@ -57,6 +57,10 @@ const styles = StyleSheet.create({
 });
 
 export default function AccountScreen({ navigation }) {
+  const toast = (msg) => {
+    ToastAndroid.show(msg, ToastAndroid.SHORT);
+  };
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.container}>
@@ -83,7 +87,7 @@ export default function AccountScreen({ navigation }) {
         />
       </View>
 
-      <TouchableWithoutFeedback onPress={() => console.log("logout")}>
+      <TouchableWithoutFeedback onPress={() => toast("OK")}>
         <View style={styles.menuOption}>
           <MaterialCommunityIcons
             name="logout-variant"
@@ -96,7 +100,3 @@ export default function AccountScreen({ navigation }) {
     </Screen>
   );
 }
-
-AccountScreen.propTypes = {
-  navigation: PropTypes.object.isRequired,
-};

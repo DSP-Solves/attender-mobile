@@ -303,12 +303,9 @@ export default function MyClassesScreen({ navigation, classes }) {
                     students: newClassData,
                   };
                   setAllClasses([...classes, newClass]);
-                  navigation.navigate(
-                    routes.MARK_ATTENDANCE_SCREEN,
-                    {
-                      myClass: newClass,
-                    },
-                  );
+                  navigation.navigate(routes.MARK_ATTENDANCE_SCREEN, {
+                    myClass: newClass,
+                  });
                   setNewClassModalVisible(false);
                 }}
               >
@@ -326,33 +323,36 @@ export default function MyClassesScreen({ navigation, classes }) {
 }
 
 MyClassesScreen.propTypes = {
-  navigation: PropTypes.object,
-  classes: PropTypes.array,
+  classes: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      students: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+        }),
+      ),
+    }),
+  ),
 };
 
 MyClassesScreen.defaultProps = {
-  navigation: PropTypes.object.isRequired,
   classes: [
     {
       id: "17-XYZ",
       name: "Mathematics",
-      students: [
-        { id: "17-XYZ-01", name: "Ramanujan" },
-      ],
+      students: [{ id: "17-XYZ-01", name: "Ramanujan" }],
     },
     {
       id: "18-MNO",
       name: "English",
-      students: [
-        { id: "18-MNO-01", name: "Shashi" },
-      ],
+      students: [{ id: "18-MNO-01", name: "Shashi" }],
     },
     {
       id: "16-DEF",
       name: "Basketball",
-      students: [
-        { id: "16-DEF-01", name: "Dwayne" },
-      ],
+      students: [{ id: "16-DEF-01", name: "Dwayne" }],
     },
   ],
 };

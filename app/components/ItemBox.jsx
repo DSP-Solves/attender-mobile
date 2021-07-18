@@ -105,7 +105,10 @@ export default function ItemBox({ data, markAbsent, markPresent }) {
 }
 
 ItemBox.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }).isRequired,
   markAbsent: PropTypes.func.isRequired,
   markPresent: PropTypes.func.isRequired,
 };

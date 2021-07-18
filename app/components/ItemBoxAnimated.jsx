@@ -125,7 +125,11 @@ ItemBox.propTypes = {
   data: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-  }).isRequired,
+  }),
   markAbsent: PropTypes.func.isRequired,
   markPresent: PropTypes.func.isRequired,
+};
+
+ItemBox.defaultProps = {
+  data: { id: "69-GTM-69", name: "Bruce Wayne" },
 };

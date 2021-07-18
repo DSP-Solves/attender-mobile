@@ -236,14 +236,15 @@ export default function MarkAttendanceScreen({
 }
 
 MarkAttendanceScreen.propTypes = {
-  navigation: PropTypes.object,
-  route: PropTypes.object,
-  students: PropTypes.array,
+  students: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+  ),
 };
 
 MarkAttendanceScreen.defaultProps = {
-  navigation: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
   students: [
     { id: "17-XYZ-01", name: "Alpha" },
     { id: "17-XYZ-02", name: "Beta" },
