@@ -14,7 +14,10 @@ module.exports = {
   plugins: ["react"],
   rules: {
     quotes: ["error", "double"],
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style":
+      process.env.NODE_ENV === "production"
+        ? ["error", "unix"]
+        : ["error", "windows"],
     "react/forbid-prop-types": ["warn"],
     "implicit-arrow-linebreak": "off",
     "react/jsx-curly-newline": "off",
