@@ -27,6 +27,6 @@ module.exports = {
       { ignore: ["navigation", "route", "style"] },
     ],
     "no-console":
-      process.env.NODE_ENV === "production" ? "error" : "off",
+      process.env.NODE_ENV === "production" ? "warn" : "off",
   },
 };
