@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "attender-mobile-clean",
-    "slug": "attender-mobile-clean",
+    "name": "Attender",
+    "slug": "attender",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,6 +10,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "primaryColor": "#fc5c65",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.dsp9107.attender"
     },
     "web": {
       "favicon": "./assets/favicon.png"

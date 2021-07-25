@@ -124,7 +124,7 @@ export default function MarkAttendanceScreen({
 
       if (apiResponse.ok && apiResponse.data.success) {
         const downloadResumable = FileSystem.createDownloadResumable(
-          `http://192.168.29.212:9107/download/${apiResponse.data.message}`,
+          `http://ec2.dspsolves.in/download/${apiResponse.data.message}`,
           `${FileSystem.documentDirectory}${apiResponse.data.message}`,
         );
 
